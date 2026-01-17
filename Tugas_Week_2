@@ -1,0 +1,52 @@
+import random
+ 
+kata_list = ["python", "hangman", "komputer", "program", "belajar"]
+
+kata_rahasia = random.choice(kata_list)
+
+tampilan = ["_"] * len(kata_rahasia)
+
+huruf_ditebak = set()
+
+kesempatan = 6
+
+print("Selamat datang di Hangman 2.0!")
+print("Kata rahasia memiliki", len(kata_rahasia), "huruf.")
+print("Anda punya 6 kesempatan untuk menebak huruf yang berbeda.")
+print("Jika menebak huruf yang sama, kesempatan tidak berkurang.")
+
+# Loop utama
+while kesempatan > 0:
+    print("\nKata:", " ".join(tampilan))
+    print("Kesempatan tersisa:", kesempatan)
+    print("Huruf yang sudah ditebak:", ", ".join(sorted(huruf_ditebak)) if huruf_ditebak else "Belum ada")
+    
+    tebakan = input("Tebak huruf: ").lower()
+    
+    if len(tebakan) != 1 or not tebakan.isalpha():
+        print("Masukkan satu huruf alfabet saja!")
+        continue
+
+    if tebakan in huruf_ditebak:
+        print("Huruf ini sudah pernah ditebak! Coba huruf lain.")
+        continue 
+    
+    huruf_ditebak.add(tebakan)
+    
+    if tebakan in kata_rahasia:
+        print("Benar!")
+       
+        for i in range(len(kata_rahasia)):
+            if kata_rahasia[i] == tebakan:
+                tampilan[i] = tebakan
+    else:
+        print("Salah!")
+        kesempatan -= 1  
+    
+    if "_" not in tampilan:
+        print("\nKata:", " ".join(tampilan))
+        print("Keren! Lu menang!")
+        break
+if kesempatan == 0:
+    print("\nKesempatan habis! Kata rahasia adalah:", kata_rahasia)
+    print("Anda kalah!")
